@@ -4,8 +4,11 @@ import { ref } from 'vue';
 
 const address = ref('');
 
-const handleSearch = () => {
+const handleSearch = async () => {
   console.log('searching for:', address.value);
+  const baseURL = `https://api.phila.gov/ais/v1/search/${encodeURIComponent(address.value)}`;
+  const response = await fetch(baseURL)
+  const data = await response.json()
 }
 
 
