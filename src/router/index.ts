@@ -12,20 +12,25 @@ const router = createRouter({
       // props: route => ({...route.params, address: route.params.address}),
       children: [
         {
-          path: '/:urlAddress',
+          path: '/:address',
           name: 'address',
           component: () => import('@/views/AddressShow.vue'),
         },
-        // {
-        //   path: '/:urlAddress/:topic',
-        //   name: 'address-and-topic',
-        //   component: () => import('@/views/AddressAndTopicShow.vue'),
-        // },
+        {
+          path: '/:address/:topic',
+          name: 'address-and-topic',
+          component: () => import('@/views/AddressShow.vue'),
+        },
       ]
     },
     // {
-    //   path: '/:urlAddress',
+    //   path: '/:address',
     //   name: 'address',
+    //   component: () => import('@/views/AddressShow.vue'),
+    // },
+    // {
+    //   path: '/:address/:topic',
+    //   name: 'address-and-topic',
     //   component: () => import('@/views/AddressShow.vue'),
     // },
     // {

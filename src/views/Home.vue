@@ -1,24 +1,18 @@
 <script setup lang="ts">
 
-// import { useRoute } from 'vue-router';
-// const route = useRoute();
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 console.log('Home setup');//, route:', route);
 
 import { ref, computed } from 'vue';
 
-const address = ref(null);
-const urlAddress = computed(() => {
-  if (address.value === '') {
-    return '';
-  } else {
-    return encodeURIComponent(address.value);
-  }
-})
+const address = ref('');
 
-// const handleSearch = () => {
-//   console.log('searching for:', address.value);
-// }
+const handleSearch = () => {
+  console.log('searching for:', address.value);
+  router.push({ name: 'address', params: { address: address.value } });
+}
 
 </script>
 
@@ -31,27 +25,26 @@ const urlAddress = computed(() => {
           type="text"
           placeholder="Search an address"
           v-model="address"
+          @submit="handleSearch"
         />
-        <router-link
-          :to="{ name: 'address', params: { urlAddress: urlAddress }}"
+        <!-- I could not use a router-link here because the address is null at the start,
+          and it would throw an error for a missing param
+        -->
+        <button
+          class="button"
+          @click="handleSearch"
         >
-          <button
-            class="button"
-          >
-            <!-- @click="handleSearch" -->
-            Search
-          </button>
-        </router-link>
+          Search
+        </button>
       </div>
 
       <router-view v-slot="{ Component }">
         <component
           :is="Component"
-          :address="address"
         />
+        <!-- :address="address" -->
       </router-view>
 
-      
     </div>
   </main>
 </template>

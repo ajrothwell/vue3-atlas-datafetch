@@ -1,15 +1,19 @@
 <script setup lang="ts">
 
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+
+import Topic from '../components/Topic.vue';
 
 import { useRoute } from 'vue-router';
 const route = useRoute();
 console.log('AddressShow setup, route.params:', route.params, 'route:', route);
-// const address = ref(route.params.address);
+const address = computed(() =>
+  route.params.address
+);
 
-const props = defineProps({
-  address: String
-});
+// const props = defineProps({
+//   address: String
+// });
 
 </script>
 
@@ -22,17 +26,10 @@ const props = defineProps({
       </div>
     </div>
 
-    <div class="columns">
-      <div class="column is-4 topic">
-        Property
-      </div>
-    </div>
-
-    <div class="columns">
-      <div class="column is-4 topic">
-        Deeds
-      </div>
-    </div>
+    <topic :topic-name="'Property'"></topic>
+    <topic :topic-name="'Deeds'"></topic>
+    <topic :topic-name="'License & Inspections'"></topic>
+    
 
   </section>
 
