@@ -1,13 +1,24 @@
 <script setup lang="ts">
 
-import { ref } from 'vue';
+// import { useRoute } from 'vue-router';
+// const route = useRoute();
 
-const address = ref('');
+console.log('Home setup');//, route:', route);
 
-const handleSearch = () => {
-  console.log('searching for:', address.value);
-}
+import { ref, computed } from 'vue';
 
+const address = ref(null);
+const urlAddress = computed(() => {
+  if (address.value === '') {
+    return '';
+  } else {
+    return encodeURIComponent(address.value);
+  }
+})
+
+// const handleSearch = () => {
+//   console.log('searching for:', address.value);
+// }
 
 </script>
 
@@ -21,13 +32,26 @@ const handleSearch = () => {
           placeholder="Search an address"
           v-model="address"
         />
-        <button
-          class="button"
-          @click="handleSearch"
+        <router-link
+          :to="{ name: 'address', params: { urlAddress: urlAddress }}"
         >
-          Search
-        </button>
+          <button
+            class="button"
+          >
+            <!-- @click="handleSearch" -->
+            Search
+          </button>
+        </router-link>
       </div>
+
+      <router-view v-slot="{ Component }">
+        <component
+          :is="Component"
+          :address="address"
+        />
+      </router-view>
+
+      
     </div>
   </main>
 </template>

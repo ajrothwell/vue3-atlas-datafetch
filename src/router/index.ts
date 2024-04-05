@@ -7,16 +7,35 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      props: true,
+      // props: route => ({...route.params, address: route.params.address}),
+      children: [
+        {
+          path: '/:urlAddress',
+          name: 'address',
+          component: () => import('@/views/AddressShow.vue'),
+        },
+        // {
+        //   path: '/:urlAddress/:topic',
+        //   name: 'address-and-topic',
+        //   component: () => import('@/views/AddressAndTopicShow.vue'),
+        // },
+      ]
     },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+    // {
+    //   path: '/:urlAddress',
+    //   name: 'address',
+    //   component: () => import('@/views/AddressShow.vue'),
+    // },
+    // {
+    //   path: '/about',
+    //   name: 'about',
+    //   // route level code-splitting
+    //   // this generates a separate chunk (About.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import('../views/AboutView.vue')
+    // }
   ]
 })
 
