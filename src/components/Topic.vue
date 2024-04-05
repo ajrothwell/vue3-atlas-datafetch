@@ -15,7 +15,7 @@ const props = defineProps({
   topicName: String
 });
 
-console.log('route.params:', route.params, 'currentTopic:', currentTopic, 'address:', address);
+// console.log('route.params:', route.params, 'currentTopic:', currentTopic, 'address:', address);
 
 const open = computed(() => {
   return route.params.topic == props.topicName ? true : false;

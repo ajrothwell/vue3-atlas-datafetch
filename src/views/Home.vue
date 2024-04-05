@@ -1,19 +1,42 @@
 <script setup lang="ts">
 console.log('Home setup');//, route:', route);
 
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+const route = useRoute();
 const router = useRouter();
 
-import { ref, computed } from 'vue';
+import { ref, watch } from 'vue';
 
 const address = ref('');
 
 const handleSearch = () => {
-  console.log('searching for:', address.value);
   if (address.value) {
     router.push({ name: 'address', params: { address: address.value } });
   }
 }
+
+// Create a ref to store the previous route path
+const previousRoutePath = ref('');
+
+// Use the router's navigation guard to track route changes
+router.beforeEach((to, from, next) => {
+  previousRoutePath.value = from.fullPath;
+  next();
+});
+
+watch(route, (newValue, oldValue) => {
+  if (newValue.params.address !== previousRoutePath.value) {
+    fetchAISData(newValue.params.address);
+  }
+});
+
+const fetchAISData = async (address: string) => {
+  const baseURL = `https://api.phila.gov/ais/v1/search/${encodeURIComponent(address)}`;
+  const response = await fetch(baseURL)
+  const data = await response.json()
+  console.log('fetchAISData, address:', address, 'data:', data);
+}
+
 
 </script>
 
