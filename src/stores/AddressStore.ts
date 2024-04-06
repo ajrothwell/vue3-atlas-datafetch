@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 export const useAddressStore = defineStore('AddressStore', {
   state: () => {
     return {
-      address: {},
+      addressData: {},
       // products,
       // products:[]
     };
@@ -16,9 +16,12 @@ export const useAddressStore = defineStore('AddressStore', {
     // your store's data instead of a component's
     // local data
 
-    // addAddress(data) {
-    //   this.address = data;
-    // },
+    async fillAddressData(address) {
+      console.log('fillAddressData');
+      const response = await fetch(`https://api.phila.gov/ais/v1/search/${address}?include_units=false`);
+      this.addressData.value = await response.json()
+    },
+      // this.addressData = data;
 
     // I want to set the products in our state to the products from the json file
     // fill() {

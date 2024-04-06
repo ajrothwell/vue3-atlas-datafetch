@@ -1,11 +1,17 @@
 <script setup lang="ts">
-console.log('Home setup');//, route:', route);
+
+import { useAddressStore } from '@/stores/AddressStore.ts'
+const AddressStore = useAddressStore();
+// console.log('AddressStore:' AddressStore);
 
 import { useRouter, useRoute } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 
 import { ref, watch } from 'vue';
+
+import useAddressRequest from '../composables/useAddressRequest.ts';
+const { addressData, fetchAddress } = useAddressRequest();
 
 const address = ref('');
 
@@ -26,16 +32,17 @@ router.beforeEach((to, from, next) => {
 
 watch(route, (newValue, oldValue) => {
   if (newValue.params.address !== previousRoutePath.value) {
-    fetchAISData(newValue.params.address);
+    // fetchAddress(newValue.params.address);
+    AddressStore.fillAddressData(newValue.params.address)
   }
 });
 
-const fetchAISData = async (address: string) => {
-  const baseURL = `https://api.phila.gov/ais/v1/search/${encodeURIComponent(address)}`;
-  const response = await fetch(baseURL)
-  const data = await response.json()
-  console.log('fetchAISData, address:', address, 'data:', data);
-}
+// const fetchAISData = async (address: string) => {
+//   const baseURL = `https://api.phila.gov/ais/v1/search/${encodeURIComponent(address)}`;
+//   const response = await fetch(baseURL)
+//   const data = await response.json()
+//   console.log('fetchAISData, address:', address, 'data:', data);
+// }
 
 
 </script>
