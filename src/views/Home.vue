@@ -2,7 +2,12 @@
 
 import { useAddressStore } from '@/stores/AddressStore.ts'
 const AddressStore = useAddressStore();
-// console.log('AddressStore:' AddressStore);
+import { useParcelsStore } from '@/stores/ParcelsStore.ts'
+const ParcelsStore = useParcelsStore();
+import { useOpaStore } from '@/stores/OpaStore.ts'
+const OpaStore = useOpaStore();
+import { useLiStore } from '@/stores/LiStore.ts'
+const LiStore = useLiStore();
 
 import { useRouter, useRoute } from 'vue-router';
 const route = useRoute();
@@ -10,8 +15,9 @@ const router = useRouter();
 
 import { ref, watch } from 'vue';
 
-import useAddressRequest from '../composables/useAddressRequest.ts';
-const { addressData, fetchAddress } = useAddressRequest();
+// fetching AIS was originally done with a composable, but moved to the store
+// import useAddressRequest from '../composables/useAddressRequest.ts';
+// const { addressData, fetchAddress } = useAddressRequest();
 
 const address = ref('');
 
@@ -30,20 +36,17 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-watch(route, (newValue, oldValue) => {
+// watch the route to know when to geocode
+watch(route, async (newValue, oldValue) => {
   if (newValue.params.address !== previousRoutePath.value) {
-    // fetchAddress(newValue.params.address);
-    AddressStore.fillAddressData(newValue.params.address)
+    await AddressStore.fillAddressData(newValue.params.address);
+    await ParcelsStore.fillPwdParcelData();
+    await ParcelsStore.fillDorParcelData();
+    await OpaStore.fillOpaData();
+    await LiStore.fillLiInspections();
+    await LiStore.fillLiPermits();
   }
 });
-
-// const fetchAISData = async (address: string) => {
-//   const baseURL = `https://api.phila.gov/ais/v1/search/${encodeURIComponent(address)}`;
-//   const response = await fetch(baseURL)
-//   const data = await response.json()
-//   console.log('fetchAISData, address:', address, 'data:', data);
-// }
-
 
 </script>
 
@@ -72,7 +75,6 @@ watch(route, (newValue, oldValue) => {
         <component
           :is="Component"
         />
-        <!-- :address="address" -->
       </router-view>
 
     </div>

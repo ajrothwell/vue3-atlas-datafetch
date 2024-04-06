@@ -50,6 +50,7 @@ const handleTopicClick = () => {
     >
       <div class="column is-6 inside-topic">
         topic content here
+        <slot></slot>
       </div>
     </div>
 

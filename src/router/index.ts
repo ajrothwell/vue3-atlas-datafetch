@@ -14,24 +14,24 @@ const router = createRouter({
         {
           path: '/:address',
           name: 'address',
-          component: () => import('@/views/AddressShow.vue'),
+          component: () => import('@/views/TopicPanel.vue'),
         },
         {
           path: '/:address/:topic',
           name: 'address-and-topic',
-          component: () => import('@/views/AddressShow.vue'),
+          component: () => import('@/views/TopicPanel.vue'),
         },
       ]
     },
     // {
     //   path: '/:address',
     //   name: 'address',
-    //   component: () => import('@/views/AddressShow.vue'),
+    //   component: () => import('@/views/topicPanel.vue'),
     // },
     // {
     //   path: '/:address/:topic',
     //   name: 'address-and-topic',
-    //   component: () => import('@/views/AddressShow.vue'),
+    //   component: () => import('@/views/topicPanel.vue'),
     // },
     // {
     //   path: '/about',

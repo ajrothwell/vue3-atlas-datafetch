@@ -6,7 +6,6 @@ import Topic from '../components/Topic.vue';
 
 import { useRoute } from 'vue-router';
 const route = useRoute();
-// console.log('AddressShow setup, route.params:', route.params, 'route:', route);
 
 const address = computed(() =>
   route.params.address
@@ -23,8 +22,12 @@ const address = computed(() =>
       </div>
     </div>
 
-    <topic :topic-name="'Property'"></topic>
+    <topic :topic-name="'Property'">
+      <div>test</div>
+    </topic>
+
     <topic :topic-name="'Deeds'"></topic>
+
     <topic :topic-name="'License & Inspections'"></topic>
     
 
